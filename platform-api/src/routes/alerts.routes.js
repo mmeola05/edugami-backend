@@ -1,0 +1,17 @@
+const express = require("express");
+const router = express.Router();
+const c = require("../controllers/alerts.controller");
+const { requireAuth, requirePermission } = require("../middlewares/auth");
+const { validate } = require("../middlewares/validate");
+const s = require("../utils/schemas");
+router.get('/', requireAuth, requirePermission('alerts.read'), c.list);
+router.get('/report', requireAuth, requirePermission('alerts.read'), c.report);
+router.post('/frontend-error', requireAuth, requirePermission('alerts.read'), validate(s.frontendErrorAlert), c.reportFrontendError);
+router.get('/:alertId', requireAuth, requirePermission('alerts.read'), c.detail);
+router.post('/', requireAuth, requirePermission('alerts.manage'), validate(s.createAlert), c.create);
+router.post('/:alertId/resolve', requireAuth, requirePermission('alerts.manage'), validate(s.resolveAlert), c.resolve);
+router.post('/:alertId/reopen', requireAuth, requirePermission('alerts.manage'), validate(s.reopenAlert), c.reopen);
+router.post('/:alertId/status', requireAuth, requirePermission('alerts.manage'), validate(s.changeAlertStatus), c.changeStatus);
+router.post('/:alertId/notes', requireAuth, requirePermission('alerts.manage'), validate(s.addIncidentNote), c.addNote);
+router.post('/:alertId/assign', requireAuth, requirePermission('alerts.manage'), validate(s.assignAlert), c.assign);
+module.exports = router;

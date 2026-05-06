@@ -1,0 +1,12 @@
+# ROOT v14
+- rate limiting de login
+- bloqueo temporal por intentos fallidos
+- expiración JWT por rol
+- protección de roles críticos
+- edición de tenant
+- suspensión de tenant con apagado de módulos
+- onboarding automático al crear tenant
+- resolución y reapertura de alertas
+- métricas reales CPU/RAM/DB
+- series para gráficos
+- tiempo real por SSE

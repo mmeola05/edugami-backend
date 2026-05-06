@@ -1,0 +1,16 @@
+const express = require("express");
+const router = express.Router();
+router.use('/auth', require('./auth.routes'));
+router.use('/tenant', require('./tenant.routes'));
+router.use('/notifications', require('./notifications.routes'));
+router.use('/root/dashboard', require('./dashboard.routes'));
+router.use('/root/platform-accounts', require('./platformAccounts.routes'));
+router.use('/root/rbac', require('./rbac.routes'));
+router.use('/root/tenants', require('./tenants.routes'));
+router.use('/root/modules', require('./modules.routes'));
+router.use('/root/alerts', require('./alerts.routes'));
+router.use('/root/services', require('./services.routes'));
+router.use('/root/metrics', require('./metrics.routes'));
+router.use('/root/realtime', require('./realtime.routes'));
+router.use('/root/audit', require('./audit.routes'));
+module.exports = router;

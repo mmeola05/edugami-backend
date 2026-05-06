@@ -1,0 +1,46 @@
+const Joi = require("joi");
+require("dotenv").config();
+const schema = Joi.object({
+  APP_PORT: Joi.number().default(7002),
+  DB_HOST: Joi.string().required(),
+  DB_PORT: Joi.number().default(5432),
+  DB_NAME: Joi.string().required(),
+  DB_USER: Joi.string().required(),
+  DB_PASSWORD: Joi.string().required(),
+  JWT_SECRET: Joi.string().min(12).required(),
+  JWT_EXPIRES_IN_ROOT: Joi.string().default("8h"),
+  JWT_EXPIRES_IN_SUPPORT: Joi.string().default("12h"),
+  FRONTEND_ROOT_URL: Joi.string().default("http://localhost:9000/root"),
+  FRONTEND_URL: Joi.string().default("http://localhost:9000"),
+  LOGIN_RATE_WINDOW_MINUTES: Joi.number().default(15),
+  LOGIN_RATE_MAX_ATTEMPTS: Joi.number().default(10),
+  LOGIN_LOCK_MINUTES: Joi.number().default(30),
+  SMTP_HOST: Joi.string().allow("").default(""),
+  SMTP_PORT: Joi.number().default(587),
+  SMTP_USER: Joi.string().allow("").default(""),
+  SMTP_PASS: Joi.string().allow("").default(""),
+  SMTP_SECURE: Joi.boolean().truthy("true").falsy("false").default(false),
+  ALERT_EMAIL_FROM: Joi.string().default("alerts@edugami.com"),
+  ALERT_EMAIL_TO: Joi.string().default("admin@edugami.com"),
+  ALERT_EMAIL_MIN_SEVERITY: Joi.string().valid("warning", "error", "fatal").default("error"),
+  ALERT_SLA_WARNING_MINUTES: Joi.number().default(240),
+  ALERT_SLA_ERROR_MINUTES: Joi.number().default(60),
+  ALERT_SLA_FATAL_MINUTES: Joi.number().default(15),
+  TELEGRAM_ENABLED: Joi.boolean().truthy("true").falsy("false").default(false),
+  TELEGRAM_BOT_TOKEN: Joi.string().allow("").default(""),
+  TELEGRAM_CHAT_ID: Joi.string().allow("").default(""),
+  WHATSAPP_ENABLED: Joi.boolean().truthy("true").falsy("false").default(false),
+  WHATSAPP_API_URL: Joi.string().allow("").default(""),
+  WHATSAPP_TOKEN: Joi.string().allow("").default(""),
+  WHATSAPP_TO: Joi.string().allow("").default(""),
+  OPS_AGENT_URL: Joi.string().default("http://127.0.0.1:7010"),
+  OPS_AGENT_SHARED_TOKEN: Joi.string().default("change-me"),
+  LOG_LEVEL: Joi.string().valid("fatal", "error", "warn", "info", "debug", "trace", "silent").default("info"),
+  SENTRY_ENABLED: Joi.boolean().truthy("true").falsy("false").default(false),
+  SENTRY_DSN: Joi.string().allow("").default(""),
+  SENTRY_ENVIRONMENT: Joi.string().default("local"),
+  SENTRY_TRACES_SAMPLE_RATE: Joi.number().min(0).max(1).default(0)
+}).unknown();
+const { error, value } = schema.validate(process.env);
+if (error) { console.error(error.message); process.exit(1); }
+module.exports = { config: value };
